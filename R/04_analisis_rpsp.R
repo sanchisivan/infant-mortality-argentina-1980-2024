@@ -193,6 +193,53 @@ R$E_DEIS_ARR <- bind_rows(TMI = arrDEIS("TMI"), TMN = arrDEIS("TMN"), .id = "ind
 R$E_IGME_serie <- ig %>% mutate(indicador = recode(ind, CME_MRY0 = "TMI", CME_MRM0 = "TMN")) %>% select(iso3, indicador, anio, valor)
 
 # -----------------------------------------------------------------------------
+# F. Sensibilidad a los puntos de corte elegidos a priori
+# -----------------------------------------------------------------------------
+# F1. Descomposición por causas con año de corte alternativo (2005 -> k -> 2024)
+dec_k <- function(k) {
+  x <- nac %>% filter(anio %in% c(2005, k, 2024)) %>% arrange(anio)
+  r <- function(v) x[[v]] / x$nv * 1000
+  tot <- r("def"); P <- r("P"); Q <- r("Q")
+  tibble(corte = k, cambio_TMI_1 = tot[2] - tot[1], pct_P_1 = (P[2] - P[1]) / (tot[2] - tot[1]) * 100,
+         cambio_P_pct_1 = (P[2] / P[1] - 1) * 100, cambio_TMI_2 = tot[3] - tot[2],
+         pct_P_2 = (P[3] - P[2]) / (tot[3] - tot[2]) * 100, cambio_P_pct_2 = (P[3] / P[2] - 1) * 100,
+         pct_Q_2 = (Q[3] - Q[2]) / (tot[3] - tot[2]) * 100)
+}
+R$F1_sens_descomposicion <- map_dfr(2012:2016, dec_k)
+
+# F2. Todos los trienios móviles (sin elegir trienios): Gini, SII, RII, Q4/Q1
+R$F2_sens_trienios_moviles <- map_dfr(2007:2024, function(a) {
+  g <- pr %>% filter(anio %in% (a - 2):a) %>% group_by(prov, cuartil) %>%
+    summarise(nv = sum(nv), def = sum(def), nbi = mean(nbi_hog_interp), .groups = "drop")
+  gi <- gini_app(g$def, g$nv, B = 200); sr <- sii_rii(g$def, g$nv, g$nbi)
+  q <- g %>% group_by(cuartil) %>% summarise(t = sum(def) / sum(nv) * 1000)
+  tibble(trienio = paste0(a - 2, "-", a), TMI = sum(g$def) / sum(g$nv) * 1000, Gini = gi[1], Gini_LI = gi[2], Gini_LS = gi[3],
+         SII = sr[1], RII = sr[4], Q1 = q$t[q$cuartil == "Q1"], Q4 = q$t[q$cuartil == "Q4"]) %>% mutate(razon_Q4_Q1 = Q4 / Q1)
+})
+
+# F3. Convergencia beta con año de corte alternativo k (TMI inicial = trienio que termina en el año inicial)
+R$F3_sens_convergencia <- map_dfr(2012:2016, function(k) {
+  vap <- function(d, a, b) { d <- filter(d, anio >= a, anio <= b); unname((exp(coef(lm(log(TMI) ~ anio, data = d))[2]) - 1) * 100) }
+  pp <- pr %>% group_by(prov) %>% group_modify(~ tibble(
+    t0 = sum(.x$def[.x$anio %in% 2005:2007]) / sum(.x$nv[.x$anio %in% 2005:2007]) * 1000,
+    tk = sum(.x$def[.x$anio %in% (k - 2):k]) / sum(.x$nv[.x$anio %in% (k - 2):k]) * 1000,
+    v1 = vap(.x, 2005, k), v2 = vap(.x, k, 2024))) %>% ungroup()
+  m1 <- lm(v1 ~ log(t0), data = pp); m2 <- lm(v2 ~ log(tk), data = pp)
+  tibble(corte = k, beta_1 = coef(m1)[2], p_1 = summary(m1)$coefficients[2, 4], beta_2 = coef(m2)[2], p_2 = summary(m2)$coefficients[2, 4])
+})
+
+# F4. Kitagawa con períodos alternativos
+kpairs <- list(c(2011, 2013, 2022, 2024), c(2014, 2016, 2022, 2024), c(2016, 2018, 2022, 2024), c(2018, 2019, 2023, 2024), c(2019, 2019, 2024, 2024))
+R$F4_sens_kitagawa <- map_dfr(kpairs, function(z) kitagawa(z[1]:z[2], z[3]:z[4])$resumen)
+
+# F5. Exceso de muertes con otras bases y bisagra en otros años
+R$F5_sens_exceso <- bind_rows(
+  map_dfr(list(2005:2019, 2008:2019, 2010:2019, 2012:2019, 2005:2018), function(b)
+    bind_rows(exceso(nac, "def", base = b) %>% filter(is.na(anio)) %>% mutate(grupo = "Argentina"),
+              exceso(filter(quart_series, cuartil == "Q4"), "def", base = b) %>% filter(is.na(anio)) %>% mutate(grupo = "Q4"))))
+R$F6_sens_bisagra <- map_dfr(2017:2020, function(k) hinge(n05, "def", k = k, lab = paste("bisagra", k)))
+
+# -----------------------------------------------------------------------------
 for (n in names(R)) write_csv(R[[n]], file.path("resultados", paste0("R", n, ".csv")))
 wb <- createWorkbook(); for (n in names(R)) { addWorksheet(wb, substr(n, 1, 31)); writeData(wb, substr(n, 1, 31), R[[n]]) }
 saveWorkbook(wb, "resultados/tablas_rpsp.xlsx", overwrite = TRUE)
