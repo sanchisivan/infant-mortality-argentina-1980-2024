@@ -13,7 +13,7 @@ The study updates Bossio JC, Sanchis I, Herrero MB, Armando GA, Arias SJ. *Morta
 | `R/` | Analysis scripts (run in order with `R/ejecutar_todo.R`) |
 | `resultados/` | Outputs: `T*.csv` (main analysis), `R*.csv` (additional analyses for the article), `tablas_resultados.xlsx`, `tablas_rpsp.xlsx` |
 | `figuras_rpsp/` | Article figures (PNG 600 dpi, PDF, EPS) and the data behind each figure (`datos_figuras_rpsp.xlsx`) |
-| `supplementary/` | Supplementary material of the article (Tables S1–S7, Figures S1–S3, supplementary methods) |
+| `supplementary/` | Supplementary material of the article (Tables S1–S6, Figures S1–S3, supplementary methods) |
 
 ## How to reproduce
 
@@ -34,7 +34,7 @@ The study updates Bossio JC, Sanchis I, Herrero MB, Armando GA, Arias SJ. *Morta
 | `01_preparar.R` | Builds the analytical datasets in `data/` |
 | `02_analisis.R` | Trends and breakpoints (IMR, NMR, PNMR), Gini index, concentration index, SII/RII, UBN quartiles, convergence, decomposition by cause, 2022 census cross-section |
 | `03_figuras.R` | Figures of the original (Spanish-language) analysis |
-| `04_analisis_rpsp.R` | Robustness of the 2020 breakpoint, observed vs expected deaths 2020–2024, inequality by triennium, coefficient of variation net of Poisson noise, Kitagawa decomposition by birthweight, UN IGME regional context |
+| `04_analisis_rpsp.R` | Robustness of the 2020 breakpoint, observed vs expected deaths 2020–2024, inequality by triennium, coefficient of variation net of Poisson noise, Kitagawa decomposition by birthweight, UN IGME regional context, sensitivity to the choice of time cut points (`RF*.csv`) |
 | `05_figuras_rpsp.R` | Figures of the article (English) |
 | `funciones_tendencia.R` | Trend procedure: smoothing (LOESS, spline, moving average), Bai–Perron breakpoints on log rates, annual percent change by period |
 | `funciones_desigualdad.R` | Gini index (smoothed Lorenz curve, bootstrap CI), concentration index, SII and RII |
