@@ -1,6 +1,6 @@
 # Infant mortality and inequality in Argentina, 1980–2024
 
-Data and R code for the article **"Stalled decline and widening provincial inequalities in infant mortality in Argentina, 1980–2024"** (submitted to the *Revista Panamericana de Salud Pública / Pan American Journal of Public Health*).
+Data and R code for the article **"Trends in infant mortality and provincial inequalities in Argentina, 1980–2024"** (submitted to the *Revista Panamericana de Salud Pública / Pan American Journal of Public Health*).
 
 The study updates Bossio JC, Sanchis I, Herrero MB, Armando GA, Arias SJ. *Mortalidad infantil y desigualdades sociales en Argentina, 1980-2017.* Rev Panam Salud Publica. 2020;44:e127. https://doi.org/10.26633/RPSP.2020.127
 
@@ -62,7 +62,7 @@ Code: MIT License (see `LICENSE`). Data derived from official public sources; pl
 
 ## Citation
 
-[Authors]. Stalled decline and widening provincial inequalities in infant mortality in Argentina, 1980–2024. Rev Panam Salud Publica. [year; volume: e-number. DOI — to be completed after publication].
+[Authors]. Trends in infant mortality and provincial inequalities in Argentina, 1980–2024. Rev Panam Salud Publica. [year; volume: e-number. DOI — to be completed after publication].
 
 ## Use of AI
 
