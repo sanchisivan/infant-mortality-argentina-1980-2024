@@ -1,0 +1,8 @@
+.Rhistory
+.RData
+.Rproj.user/
+resultados/objetos_analisis.rds
+figuras/
+data_raw/originales/
+~$*
+*.tmp
