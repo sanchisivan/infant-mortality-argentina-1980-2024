@@ -1,0 +1,3 @@
+serie,metodo,desde,hasta,n,VAP,LI,LS,p,tendencia,elegido
+CV señal,original,2005,2013,9,-5.0115,-6.4911,-3.5085,1.1211014564856375e-4,DESCENSO,TRUE
+CV señal,original,2013,2024,12,3.0039,0.7867,5.2698,0.012665883302527629,AUMENTO,TRUE

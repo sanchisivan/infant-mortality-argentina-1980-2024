@@ -1,0 +1,15 @@
+serie,metodo_elegido,quiebres
+TMI_1980_2024,original,"1997, 2004, 2020"
+TMI_2005_2024,spline,2021
+TMN_2005_2024,original,2015
+TMPN_2005_2024,spline,2020
+Gini_TMI,spline,"2015, 2019"
+Gini_TMN,original,2014
+Gini_TMPN,media_movil,"2011, 2020"
+IC_abs,original,2019
+razon_Q4_Q1,loess,2017
+TMI_Q1,original,
+TMI_Q2,spline,2020
+TMI_Q3,original,
+TMI_Q4,original,2021
+CV_provincial,original,2013
