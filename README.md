@@ -1,6 +1,6 @@
 # Infant mortality and inequality in Argentina, 1980–2024
 
-Data and R code for the article **"Trends in infant mortality and provincial inequalities in Argentina, 1980–2024"** (submitted to the *Revista Panamericana de Salud Pública / Pan American Journal of Public Health*).
+Data and R code for the article **"Tendencias de la mortalidad infantil y desigualdades entre provincias en Argentina, 1980–2024"** (*Trends in infant mortality and provincial inequalities in Argentina, 1980–2024*), submitted in Spanish to the *Revista Panamericana de Salud Pública / Pan American Journal of Public Health*.
 
 The study updates Bossio JC, Sanchis I, Herrero MB, Armando GA, Arias SJ. *Mortalidad infantil y desigualdades sociales en Argentina, 1980-2017.* Rev Panam Salud Publica. 2020;44:e127. https://doi.org/10.26633/RPSP.2020.127
 
@@ -12,8 +12,9 @@ The study updates Bossio JC, Sanchis I, Herrero MB, Armando GA, Arias SJ. *Morta
 | `data/` | Analytical datasets built by `R/01_preparar.R`: national series 1980–2024, province-year panel 2005–2024, census indicators by province |
 | `R/` | Analysis scripts (run in order with `R/ejecutar_todo.R`) |
 | `resultados/` | Outputs: `T*.csv` (main analysis), `R*.csv` (additional analyses for the article), `tablas_resultados.xlsx`, `tablas_rpsp.xlsx` |
-| `figuras_rpsp/` | Article figures (PNG 600 dpi, PDF, EPS) and the data behind each figure (`datos_figuras_rpsp.xlsx`) |
-| `supplementary/` | Supplementary material of the article (Tables S1–S6, Figures S1–S3, supplementary methods) |
+| `figuras_rpsp_es/` | Article figures in Spanish, as submitted (PNG 600 dpi, PDF, EPS) and the data behind each figure (`datos_figuras_rpsp_es.xlsx`) |
+| `figuras_rpsp/` | The same figures with English labels (`datos_figuras_rpsp.xlsx`) |
+| `supplementary/` | Supplementary material of the article: `Material_suplementario_RPSP.pdf` (Spanish, as submitted) and `Supplementary_material_RPSP.pdf` (English translation): Tables S1–S6, Figures S1–S3, supplementary methods |
 
 ## How to reproduce
 
@@ -35,7 +36,7 @@ The study updates Bossio JC, Sanchis I, Herrero MB, Armando GA, Arias SJ. *Morta
 | `02_analisis.R` | Trends and breakpoints (IMR, NMR, PNMR), Gini index, concentration index, SII/RII, UBN quartiles, convergence, decomposition by cause, 2022 census cross-section |
 | `03_figuras.R` | Figures of the original (Spanish-language) analysis |
 | `04_analisis_rpsp.R` | Robustness of the 2020 breakpoint, observed vs expected deaths 2020–2024, inequality by triennium, coefficient of variation net of Poisson noise, Kitagawa decomposition by birthweight, UN IGME regional context, sensitivity to the choice of time cut points (`RF*.csv`) |
-| `05_figuras_rpsp.R` | Figures of the article (English) |
+| `05_figuras_rpsp.R` | Figures of the article; set the environment variable `FIG_LANG=es` (Spanish, default output folder `figuras_rpsp_es/`) or `FIG_LANG=en` (English, `figuras_rpsp/`) |
 | `funciones_tendencia.R` | Trend procedure: smoothing (LOESS, spline, moving average), Bai–Perron breakpoints on log rates, annual percent change by period |
 | `funciones_desigualdad.R` | Gini index (smoothed Lorenz curve, bootstrap CI), concentration index, SII and RII |
 
@@ -62,7 +63,7 @@ Code: MIT License (see `LICENSE`). Data derived from official public sources; pl
 
 ## Citation
 
-[Authors]. Trends in infant mortality and provincial inequalities in Argentina, 1980–2024. Rev Panam Salud Publica. [year; volume: e-number. DOI — to be completed after publication].
+[Authors]. Tendencias de la mortalidad infantil y desigualdades entre provincias en Argentina, 1980–2024. Rev Panam Salud Publica. [year; volume: e-number. DOI — to be completed after publication].
 
 ## Use of AI
 

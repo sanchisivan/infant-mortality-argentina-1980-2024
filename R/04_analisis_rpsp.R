@@ -237,6 +237,12 @@ R$F5_sens_exceso <- bind_rows(
   map_dfr(list(2005:2019, 2008:2019, 2010:2019, 2012:2019, 2005:2018), function(b)
     bind_rows(exceso(nac, "def", base = b) %>% filter(is.na(anio)) %>% mutate(grupo = "Argentina"),
               exceso(filter(quart_series, cuartil == "Q4"), "def", base = b) %>% filter(is.na(anio)) %>% mutate(grupo = "Q4"))))
+# Para las bases ya estimadas en B se usan los mismos resultados (misma simulación) y así coinciden las tablas
+B_raw <- bind_rows(EX) %>% filter(is.na(anio), serie == "def")
+for (i in seq_len(nrow(R$F5_sens_exceso))) {
+  j <- which(B_raw$grupo == R$F5_sens_exceso$grupo[i] & B_raw$base == R$F5_sens_exceso$base[i])
+  if (length(j) == 1) R$F5_sens_exceso[i, names(B_raw)] <- B_raw[j, ]
+}
 R$F6_sens_bisagra <- map_dfr(2017:2020, function(k) hinge(n05, "def", k = k, lab = paste("bisagra", k)))
 
 # -----------------------------------------------------------------------------
