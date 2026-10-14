@@ -3,7 +3,7 @@
 #   A. Robustez del quiebre 2020 (IC del quiebre; regresión segmentada de Poisson;
 #      cambio de pendiente con y sin 2020-2021)
 #   B. Defunciones infantiles en exceso 2020-2024 respecto de la tendencia 2005-2019
-#      (nacional, componentes y cuartiles de NBI)
+#      (nacional, componentes y cuartiles de NBI; contraste C4 frente a C1-C3)
 #   C. Desigualdad según NBI: SII/RII/IC en trienios; CV provincial corregido por
 #      ruido de Poisson (caída de nacimientos)
 #   D. Descomposición de Kitagawa por peso al nacer (anuarios DEIS 2011-2024)
@@ -89,7 +89,10 @@ exceso <- function(d, y, base = 2005:2019, pred = 2020:2024, B = 10000) {
   acum <- tibble(anio = NA, observadas = obs, esperadas = sum(esp), PI_LI = quantile(tot, .025), PI_LS = quantile(tot, .975),
                  exceso = obs - sum(esp), exceso_LI = obs - quantile(tot, .975), exceso_LS = obs - quantile(tot, .025),
                  tasa_obs = obs / sum(dp$nv) * 1000, tasa_esp = sum(esp) / sum(dp$nv) * 1000, razon_OE = obs / sum(esp),
-                 APC_base = apc(coef(m)[2]))
+                 APC_base = apc(coef(m)[2]),
+                 OE_LI = obs / quantile(tot, .975), OE_LS = obs / quantile(tot, .025),
+                 exceso_x1000 = (obs - sum(esp)) / sum(dp$nv) * 1000, exceso_x1000_LI = exceso_LI / sum(dp$nv) * 1000,
+                 exceso_x1000_LS = exceso_LS / sum(dp$nv) * 1000)
   bind_rows(anual, acum) %>% mutate(serie = y, base = paste(range(base), collapse = "-"))
 }
 quart_series <- pr %>% group_by(cuartil, anio) %>% summarise(nv = sum(nv), def = sum(def), neo = sum(neo), posneo = sum(posneo), .groups = "drop")
@@ -104,6 +107,19 @@ R$B_exceso <- bind_rows(EX) %>% mutate(serie = recode(serie, def = "TMI", neo = 
 q4 <- pr %>% filter(cuartil == "Q4") %>% group_by(anio) %>% summarise(across(c(nv, def, neo, posneo, P, Q, J, R, AB, VY, OT), sum), .groups = "drop")
 R$B2_exceso_Q4_componentes <- map_dfr(c("def", "neo", "posneo", "P", "Q", "J", "R"), function(v)
   exceso(q4, v) %>% filter(is.na(anio)) %>% mutate(serie = v)) %>% mutate(grupo = "Q4") %>% relocate(grupo, serie)
+
+# B3. ¿El desvío de 2020-2024 fue mayor en el C4 que en C1-C3? Regresión cuasi-Poisson 2005-2024 con
+#     tendencia propia de cada grupo y cambio de nivel en 2020-2024 por grupo (offset log NV).
+#     exp(post_C4 - post_C1C3) = razón entre las razones O/E de ambos grupos.
+g34 <- pr %>% mutate(grp = factor(ifelse(cuartil == "Q4", "Q4", "Q1-Q3"), c("Q1-Q3", "Q4"))) %>% group_by(grp, anio) %>%
+  summarise(nv = sum(nv), def = sum(def), neo = sum(neo), posneo = sum(posneo), .groups = "drop") %>% mutate(post = as.numeric(anio >= 2020), t = anio - 2005)
+R$B3_contraste_Q4 <- map_dfr(c("def", "neo", "posneo"), function(v) {
+  m <- glm(as.formula(paste(v, "~ grp * t + grp:post + offset(log(nv))")), family = quasipoisson, data = g34)
+  b <- coef(m); V <- vcov(m); i1 <- which(names(b) == "grpQ1-Q3:post"); i2 <- which(names(b) == "grpQ4:post")
+  d <- b[i2] - b[i1]; se <- sqrt(V[i1, i1] + V[i2, i2] - 2 * V[i1, i2]); q <- qt(.975, df.residual(m))
+  tibble(serie = v, OE_modelo_Q1Q3 = exp(b[i1]), OE_modelo_Q4 = exp(b[i2]), razon_Q4_Q1Q3 = exp(d),
+         LI = exp(d - q * se), LS = exp(d + q * se), p = 2 * pt(-abs(d / se), df.residual(m)), dispersion = summary(m)$dispersion)
+}) %>% mutate(serie = recode(serie, def = "TMI", neo = "TMN", posneo = "TMPN"))
 
 # -----------------------------------------------------------------------------
 # C. Desigualdad según NBI en trienios + CV corregido por ruido

@@ -14,7 +14,7 @@ The study updates Bossio JC, Sanchis I, Herrero MB, Armando GA, Arias SJ. *Morta
 | `resultados/` | Outputs: `T*.csv` (main analysis), `R*.csv` (additional analyses for the article), `tablas_resultados.xlsx`, `tablas_rpsp.xlsx` |
 | `figuras_rpsp_es/` | Article figures in Spanish, as submitted (PNG 600 dpi, PDF, EPS) and the data behind each figure (`datos_figuras_rpsp_es.xlsx`) |
 | `figuras_rpsp/` | The same figures with English labels (`datos_figuras_rpsp.xlsx`) |
-| `supplementary/` | Supplementary material of the article: `Material_suplementario_RPSP.pdf` (Spanish, as submitted) and `Supplementary_material_RPSP.pdf` (English translation): Tables S1–S6, Figures S1–S3, supplementary methods |
+| `supplementary/` | Supplementary material of the article: `Material_suplementario_RPSP.pdf` (Spanish, as submitted) and `Supplementary_material_RPSP.pdf` (earlier English translation; the Spanish version is the reference): Tables S1–S6, Figures S1–S3, supplementary methods |
 
 ## How to reproduce
 
@@ -35,7 +35,7 @@ The study updates Bossio JC, Sanchis I, Herrero MB, Armando GA, Arias SJ. *Morta
 | `01_preparar.R` | Builds the analytical datasets in `data/` |
 | `02_analisis.R` | Trends and breakpoints (IMR, NMR, PNMR), Gini index, concentration index, SII/RII, UBN quartiles, convergence, decomposition by cause, 2022 census cross-section |
 | `03_figuras.R` | Figures of the original (Spanish-language) analysis |
-| `04_analisis_rpsp.R` | Robustness of the 2020 breakpoint, observed vs expected deaths 2020–2024, inequality by triennium, coefficient of variation net of Poisson noise, Kitagawa decomposition by birthweight, UN IGME regional context, sensitivity to the choice of time cut points (`RF*.csv`) |
+| `04_analisis_rpsp.R` | Robustness of the 2020 breakpoint, observed vs expected deaths 2020–2024 (O/E with 95% prediction intervals; contrast of the 2020–2024 deviation in the highest-UBN quartile vs the rest, `RB3_contraste_Q4.csv`), inequality by triennium, coefficient of variation net of Poisson noise, Kitagawa decomposition by birthweight, UN IGME regional context, sensitivity to the choice of time cut points (`RF*.csv`) |
 | `05_figuras_rpsp.R` | Figures of the article; set the environment variable `FIG_LANG=es` (Spanish, default output folder `figuras_rpsp_es/`) or `FIG_LANG=en` (English, `figuras_rpsp/`) |
 | `funciones_tendencia.R` | Trend procedure: smoothing (LOESS, spline, moving average), Bai–Perron breakpoints on log rates, annual percent change by period |
 | `funciones_desigualdad.R` | Gini index (smoothed Lorenz curve, bootstrap CI), concentration index, SII and RII |

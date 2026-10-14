@@ -139,11 +139,9 @@ fit_pred <- function(d) {
 F3 <- qs %>% group_split(grupo) %>% map_dfr(fit_pred)
 oe <- ex %>% filter(serie == "TMI", base == "2005-2019", is.na(anio))
 oe <- if (!ES) {
-  oe %>% transmute(grupo, lab = gsub("-", "−", fixed = TRUE, x = sprintf("2020–2024: O/E %.2f\nexcess %s%.0f (%s%.0f to %s%.0f)", razon_OE, ifelse(exceso > 0, "+", ""), exceso,
-                                   ifelse(exceso_LI > 0, "+", ""), exceso_LI, ifelse(exceso_LS > 0, "+", ""), exceso_LS)))
+  oe %>% transmute(grupo, lab = sprintf("2020–2024: O/E %.2f\n(95%% PI %.2f to %.2f)", razon_OE, OE_LI, OE_LS))
 } else {
-  oe %>% transmute(grupo, lab = sprintf("2020–2024: O/E %s\nexceso %s (%s a %s)", fnum(razon_OE, 2),
-                                        fnum(exceso, 0, TRUE), fnum(exceso_LI, 0, TRUE), fnum(exceso_LS, 0, TRUE)))
+  oe %>% transmute(grupo, lab = sprintf("2020–2024: O/E %s\n(IP95%% %s a %s)", fnum(razon_OE, 2), fnum(OE_LI, 2), fnum(OE_LS, 2)))
 }
 F3 <- F3 %>% mutate(grupo = factor(grupo, levels = c("Argentina", "Q1", "Q2", "Q3", "Q4"),
   labels = tx(c("Argentina", "Q1 (lowest UBN)", "Q2", "Q3", "Q4 (highest UBN)"), c("Argentina", "C1 (menor NBI)", "C2", "C3", "C4 (mayor NBI)"))))
