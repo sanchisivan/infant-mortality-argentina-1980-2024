@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use these data or code, please cite them as below, together with the article."
+title: "Infant mortality and inequality in Argentina, 1980–2024: data and R code"
+type: software
+authors:
+  - family-names: Sanchis
+    given-names: Iván
+    email: sanchisivan@fbcb.unl.edu.ar
+    affiliation: "Instituto Nacional de Enfermedades Respiratorias \"Emilio Coni\", Santa Fe; Facultad de Bioquímica y Ciencias Biológicas, Universidad Nacional del Litoral, Santa Fe, Argentina"
+  - family-names: Armando
+    given-names: Gustavo Ariel
+    affiliation: "Instituto Nacional de Enfermedades Respiratorias \"Emilio Coni\", Santa Fe, Argentina"
+  - family-names: Bossio
+    given-names: Juan Carlos
+    affiliation: "Instituto Nacional de Enfermedades Respiratorias \"Emilio Coni\", Santa Fe, Argentina"
+repository-code: "https://github.com/sanchisivan/infant-mortality-argentina-1980-2024"
+license: MIT
+keywords:
+  - infant mortality
+  - health inequalities
+  - social determinants of health
+  - Argentina

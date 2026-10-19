@@ -2,6 +2,19 @@
 
 Data and R code for the article **"Tendencias de la mortalidad infantil y desigualdades entre provincias en Argentina, 1980–2024"** (*Trends in infant mortality and provincial inequalities in Argentina, 1980–2024*), submitted in Spanish to the *Revista Panamericana de Salud Pública / Pan American Journal of Public Health*.
 
+## Authors
+
+- **Iván Sanchis**<sup>1,2</sup> — corresponding author: sanchisivan@fbcb.unl.edu.ar
+- **Gustavo Ariel Armando**<sup>1</sup>
+- **Juan Carlos Bossio**<sup>1</sup>
+
+<sup>1</sup> Instituto Nacional de Enfermedades Respiratorias "Emilio Coni", Santa Fe, Argentina.  
+<sup>2</sup> Facultad de Bioquímica y Ciencias Biológicas, Universidad Nacional del Litoral, Santa Fe, Argentina.
+
+Questions about the data or code: open an issue in this repository or write to the corresponding author.
+
+## Background
+
 The study updates Bossio JC, Sanchis I, Herrero MB, Armando GA, Arias SJ. *Mortalidad infantil y desigualdades sociales en Argentina, 1980-2017.* Rev Panam Salud Publica. 2020;44:e127. https://doi.org/10.26633/RPSP.2020.127
 
 ## Contents
@@ -63,8 +76,12 @@ Code: MIT License (see `LICENSE`). Data derived from official public sources; pl
 
 ## Citation
 
-[Authors]. Tendencias de la mortalidad infantil y desigualdades entre provincias en Argentina, 1980–2024. Rev Panam Salud Publica. [year; volume: e-number. DOI — to be completed after publication].
+Article (submitted; details to be completed after publication):
 
-## Use of AI
+> Sanchis I, Armando GA, Bossio JC. Tendencias de la mortalidad infantil y desigualdades entre provincias en Argentina, 1980–2024. Rev Panam Salud Publica. [year;volume:e-number. DOI].
 
-Claude (Anthropic) was used to assist with programming the additional analyses (`04_analisis_rpsp.R`, `05_figuras_rpsp.R`); all code and results were reviewed by the authors.
+Data and code:
+
+> Sanchis I, Armando GA, Bossio JC. Infant mortality and inequality in Argentina, 1980–2024: data and R code [dataset and software]. GitHub; 2026. https://github.com/sanchisivan/infant-mortality-argentina-1980-2024
+
+A machine-readable citation is provided in `CITATION.cff` (GitHub's "Cite this repository" button).
